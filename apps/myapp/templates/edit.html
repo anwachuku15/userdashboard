@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Edit</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- CSS -->
+    <link rel="stylesheet" href="../static/style.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  </head>
+  <body>
+    <div class="container body-content">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-sm bg-light navbar-light fixed-top ">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <span class="navbar-brand">Test App</span>
+          </div>
+          <button class="navbar-toggler" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="nav navbar-nav">
+              <li class="nav-item" ><a class="nav-link" href="/dashboard/admin">Dashboard</a></li>
+              <li class="nav-item"><a class="nav-link" href="/users/show/{{user.id}}">{{user.fname}}</a></li>
+              <li class="nav-item" ><a class="nav-link" href="/users/edit">Account Info</a></li>
+              <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <br>
+
+      <!-- Header -->
+      <div style="margin-top:80px">
+        <h4>Edit profile</h4>
+      </div>
+      
+      <div style="display: inline-flex" class="d-flex justify-content-around">
+
+        <!-- Edit Information -->
+        <form action="/editinfo" class="needs-validation" id=infoform method=POST novalidate>
+          {% csrf_token %}
+          <div class="form-group">
+            <fieldset>
+              <legend>Edit Information</legend>
+              <div class="form-group">
+                <label for="email">Email Address:</label>
+                <input class="form-control" type="email" name="email" id="email" value="{{user.email}}" pattern="^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]+$"  required>
+                <div class="valid-feedback"></div>
+                <div class="invalid-feedback">Please enter a valid email</div>
+              </div>
+
+              <div class="form-group">
+                <label for="fname">First Name:</label>
+                <input class="form-control" type="text" name="fname" id="first" value="{{user.fname}}" required>
+                <div class="valid-feedback"></div>
+                <div class="invalid-feedback">Field required</div>
+              </div>
+              
+              <div class="form-group">
+                <label>Last Name:</label>
+                <input class="form-control" type="text" name="lname" id="last" value="{{user.lname}}" required>
+                <div class="valid-feedback"></div>
+                <div class="invalid-feedback">Field required</div>
+              </div>
+              
+              <button 
+                type="submit" id="infobtn" class="btn btn-success" >Save</button>
+            </fieldset>
+          </div>
+        </form>
+        <!-- Hidden -->
+        <div>
+          <ul hidden>
+          {% for member in members %}
+            <li class="emailaddress">{{member.email}}</li>
+          {% endfor %}
+          </ul>
+          <ul hidden>
+          {% for member in members %}
+            <li class="id">{{member.id}}</li>
+          {% endfor %}
+          </ul>
+        </div>
+        
+        <!-- Change Password -->
+        <div>
+          <div class="form-group">
+            <form action="/changepw" method="POST">
+              <fieldset>
+                <legend>Change Password</legend>
+                <p>Password:<br><input class="form-control "type="password" name="password"></p>
+                <p>Password Confirmation:<br><input class="form-control" type="password" name="confirm"></p>
+                <input type="button" value="Update Password" class="btn btn-success">
+              </fieldset>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit Description -->
+      <div>
+        <form>
+          <div class="form-group">
+            <fieldset>
+              <legend>Edit Description</legend>
+              <textarea name="desc" class="form-control"></textarea><br>
+              <input type="submit" value="Save" class="btn btn-success">
+            </fieldset>
+          </div>
+        </form>
+      </div>
+    
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="http://www.w3schools.com/lib/w3data.js"></script>
+
+    <script>
+      (function() {
+        'use strict';
+        window.addEventListener('load', function () {
+          var forms = document.getElementsByClassName('needs-validation');
+          var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event){
+              if(form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+              }
+              form.classList.add('was-validated');
+            }, false);
+          });
+        }, false);
+      })();
+  
+        
+    </script>
+    
+    <script>
+      // r"^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]+$"
+      // document.getElementById("infoform").onsubmit = function() {
+      //   myfunction();
+      // }
+
+      // function myfunction() {
+      //   alert("Changes saved!");
+      // }
+
+      $(document).ready(function() {
+
+        console.log($('#email').val());
+        $('input[type="text"]').on('keyup', function(){
+          var email = $('#email').val();
+          var first = $('#first').val();
+          console.log(first);
+          var last = $('#last').val();
+          var emails = document.getElementsByClassName("emailaddress");
+          var exists;
+          
+          // if(email == '' || first == '' || last == ''){
+          //   $("#infobtn").attr('disabled', true);
+          // }
+          // else {
+          //   $("#infobtn").attr('disabled', false);
+          // }
+
+          
+        })   
+        
+      })
+    </script>
+
+    <script>
+      // $(document).ready(function() {
+      //   $('input[type="email"]').on('keyup', function() {
+      //     var emails = document.getElementsByClassName("emailaddress");
+      //     var exists;
+      //     for(var i=0; i<emails.length; i++){
+      //       exists = emails[i].innerHTML;
+                      
+      //       if(email != temp && exists == email){
+      //       $("#infobtn").attr('disabled', true);
+      //         console.log("Email exists!");
+      //       }
+      //       else {
+      //         $("#infobtn").attr('disabled', false);
+      //       }
+      //     }
+
+      //   })
+      // })
+    </script>
+
+   
+
+    <script>
+      // w3IncludeHTML();
+    </script>
+    
+  </body>
+</html>
